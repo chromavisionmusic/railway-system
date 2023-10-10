@@ -6,7 +6,7 @@ def SignUp():
         user='root',
         password='password',
         port=3306,
-        database='railway_system_demo'
+        database='railway_system'
     )
     cur = con.cursor()
     print("SIGN UP\n")
@@ -47,7 +47,7 @@ def SignUp():
 
 
 def SignIn():
-    con=mycon.connect(host='localhost',user='root',password='password',port=3306,database='railway_system_demo')
+    con=mycon.connect(host='localhost',user='root',password='password',port=3306,database='railway_system')
     cur=con.cursor()
     print("SIGN IN\n")
     username=input("Enter your username : ")
