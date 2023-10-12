@@ -47,7 +47,12 @@ def SignUp():
 
 
 def SignIn():
-    con=mycon.connect(host='localhost',user='root',password='password',port=3306,database='railway_system')
+    con=mycon.connect(host='localhost',
+                      user='root',
+                      password='password',
+                      port=3306,
+                      database='railway_system'
+                      )
     cur=con.cursor()
     print("SIGN IN\n")
     username=input("Enter your username : ")
@@ -58,10 +63,25 @@ def SignIn():
     for i in result :
         if i[0]==username:      # SEARCH FOR THE USERNAME IN DATABASE
             if i[1]==password:      # CHECKS THE PASSWORD IN DATABASE
+                print ("Sign In Successful")
+                con.close()
                 return True
             else:
                 print("PASSWORD DOESN'T MATCH")
+                return False
     else:
         print("USER NOT FOUND.\nPLEASE CHECK YOUR USERNAME AS IT MAY BE WRONG\nELSE YOU NEED TO SIGN UP AS A NEW USER.")
-    print ("Sign In Successful")
-    con.close()
+        return False
+    
+
+
+
+
+def AdminLogin():
+    username=input("Enter admin username : ")
+    password=input("Enter admin password : ")
+    if username=="admin" and password=="login@Admin":       # admin username = "admin" & password = "login@Admin"
+        return True
+    else:
+        print("INVALID LOGIN CREDENTIALS")
+        return False
