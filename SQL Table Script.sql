@@ -31,5 +31,15 @@ SL float(5,2),
 3A float(5,2),
 2A float(6,2),
 1A float(6,2),
-GEN float(5,2));
+UR float(5,2));
 
+create table bookings
+(PNR bigint(10) primary key,
+train_no int(5) not null,
+class varchar(2),
+board_at varchar(4),
+destination varchar(4),
+NOP int(1),
+booking_date date,
+journey_date date,
+fare float(7,2) not null);

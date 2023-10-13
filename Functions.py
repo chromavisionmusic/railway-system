@@ -1,4 +1,7 @@
 import mysql.connector as mycon
+import csv
+import pickle
+import os
 
 def SignUp():
     con = mycon.connect(
@@ -85,3 +88,41 @@ def AdminLogin():
     else:
         print("INVALID LOGIN CREDENTIALS")
         return False
+    
+
+
+
+def AddStation():
+
+
+
+
+
+def DeleteStation():
+
+
+
+
+
+def AddTrain():
+
+
+
+
+
+def ModifyTrain():
+
+
+
+
+
+
+def DeleteTrain():
+
+
+
+
+
+
+def BookingDetails():
+    
