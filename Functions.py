@@ -50,12 +50,13 @@ def SignUp():
 
 
 def SignIn():
-    con=mycon.connect(host='localhost',
-                      user='root',
-                      password='password',
-                      port=3306,
-                      database='railway_system'
-                      )
+    con=mycon.connect(
+        host='localhost',
+        user='root',
+        password='password',
+        port=3306,
+        database='railway_system'
+    )
     cur=con.cursor()
     print("SIGN IN\n")
     username=input("Enter your username : ")
@@ -125,4 +126,36 @@ def DeleteTrain():
 
 
 def BookingDetails():
-    
+    con = mycon.connect(
+        host='localhost',
+        user='root',
+        password='password',
+        port=3306,
+        database='railway_system'
+    )
+    cur = con.cursor()
+    cur.execute('select * from bookings')
+    result=cur.fetchall()
+    print("%10s"%"PNR",
+          "%8s"%"Train No",
+          "%5s"%"Class",
+          "%8s"%"Board At",
+          "%11s"%"Destination",
+          "%3s"%"NOP",
+          "%12s"%"Booking Date",
+          "%12s"%"Journey Date",
+          "%7s"%"Fare"
+          )
+    for row in result:
+        print(
+            "%10s"%row[0],
+            "%8s"%row[1],
+            "%5s"%row[2],
+            "%8s"%row[3],
+            "%11s"%row[4],
+            "%3s"%row[5],
+            "%12s"%row[6],
+            "%12s"%row[7],
+            "%7s"%row[8]
+            )
+    con.close()
