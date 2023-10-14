@@ -117,7 +117,45 @@ def DeleteStation():
 
 
 def AddTrain():
-    pass
+    # Adding data to csv file
+    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Trains.csv","a+")
+    f.close()
+    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Trains.csv","a")
+    wobj=csv.writer(f)
+    train_no=int(input("Enter train no : "))
+    train_name=input("Enter train name : ")
+    stations=eval(input("Enter all stations (format=['HWH','DGR','NJP',...]) : "))
+    src=stations[0]
+    dstn=stations[len(stations)-1]
+    category=input("Enter train category : ")
+    data=[train_no,train_name]
+    for i in stations:
+        data.append(i)
+    wobj.writerow(data)
+    f.close()
+    # Adding data to SQL
+    
+    con = mycon.connect(
+        host='localhost',
+        user='root',
+        password='password',
+        port=3306,
+        database='railway_system_demo'
+    )
+    cur = con.cursor()
+    query = "INSERT INTO train_details (train_no, train_name, category, source, destination) VALUES (%s, %s, %s, %s, %s)"
+    row=(train_no,train_name,category,src,dstn)
+    try:
+        cur.execute(query,row)
+        con.commit()
+        print("NEW TRAIN ADDED SUCCESSFULLY")
+    except Exception as e:
+        print("Error:", e)
+        con.rollback()
+    finally:
+        con.close()
+    
+    
 
 
 
