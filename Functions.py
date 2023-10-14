@@ -94,32 +94,32 @@ def AdminLogin():
 
 
 def AddStation():
-
+    pass
 
 
 
 
 def DeleteStation():
-
+    pass
 
 
 
 
 def AddTrain():
-
+    pass
 
 
 
 
 def ModifyTrain():
-
+    pass
 
 
 
 
 
 def DeleteTrain():
-
+    pass
 
 
 
@@ -159,3 +159,27 @@ def BookingDetails():
             "%7s"%row[8]
             )
     con.close()
+
+
+
+
+def BookTicket():
+    pass
+
+
+
+
+def CancelTicket():
+    pass
+
+
+
+
+def PNRStatus():
+    pass
+
+
+
+
+def MyBookings():
+    pass
