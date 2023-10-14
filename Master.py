@@ -21,16 +21,20 @@ while choice!=0:
         F.SignUp()
     elif choice==2:     # Proceed to Sign In page
         sign_in=F.SignIn()
+        if sign_in==True:      # Main Menu after successful login
+            break
     elif choice==3:
         admin_login=F.AdminLogin()
+        if admin_login==True:   # Admin Menu after successful login
+            break
     else:
         print("Invalid Choice! Try Again.")
 
-# ADMIN PAGE
+# ADMIN MENU
 if admin_login==True:
     choice=None
     while choice!=0:
-        choice=int(input("1. ADD STATION\n2. DELETE STATION\n3. ADD TRAIN\n4.MODIFY TRAIN\n5.DELETE TRAIN\n6.SHOW ALL ACTIVE BOOKINGS\n0. LOGOUT\n\nPlease enter your choice : "))
+        choice=int(input("1. ADD STATION\n2. DELETE STATION\n3. ADD TRAIN\n4. MODIFY TRAIN\n5. DELETE TRAIN\n6. SHOW ALL ACTIVE BOOKINGS\n0. LOGOUT\n\nPlease enter your choice : "))
         if choice==0:
             admin_login=False
             print("THANK YOU")
@@ -50,7 +54,7 @@ if admin_login==True:
             print("Invalid Choice! Try Again.")
 
 
-# HOMEPAGE
+# MAIN MENU
 if sign_in==True:
     choice=None
     while choice!=0:

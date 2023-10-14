@@ -9,7 +9,7 @@ def SignUp():
         user='root',
         password='password',
         port=3306,
-        database='railway_system'
+        database='railway_system_demo'
     )
     cur = con.cursor()
     print("SIGN UP\n")
@@ -55,7 +55,7 @@ def SignIn():
         user='root',
         password='password',
         port=3306,
-        database='railway_system'
+        database='railway_system_demo'
     )
     cur=con.cursor()
     print("SIGN IN\n")
@@ -94,7 +94,18 @@ def AdminLogin():
 
 
 def AddStation():
-    pass
+    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","ab+")
+    f.close()
+    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","rb")
+    data=pickle.load(f)
+    station_code=input("Enter station code : ")
+    station_name=input("Enter station name : ")
+    data[station_code]=station_name
+    f.close()
+    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","wb")
+    pickle.dump(data,f)
+    print("Station added successfully")
+    f.close()
 
 
 
