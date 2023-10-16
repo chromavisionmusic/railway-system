@@ -38,5 +38,4 @@ Admin password : 'login@Admin'
 </i></b>
 <br>
 <br><b><i>
-Author - D E B A N G S H U   D A S
-</b></i>
+Author - DEBANGSHU DAS</b></i>
