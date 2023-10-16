@@ -21,9 +21,13 @@ The main objective of this program is :
 It also has a admin control page from where the following operations can be performed :
 <br>
 • Add a station
+<br>
 • Delete a station
+<br>
 • Add a train
+<br>
 • Delete a train
+<br>
 • Check all the bookings present in the database
 <br><br>
 But at first, user had to Sign In into their account (or Sign Up if new user) to perform any operation. Admin can also login into the program using Admin Username and password.
