@@ -37,6 +37,6 @@ Admin username : 'admin'
 Admin password : 'login@Admin'
 </i></b>
 <br>
-<br><b>
-Author - Debangshu Das
-</b>
+<br><b><i>
+Author - D E B A N G S H U   D A S
+</b></i>
