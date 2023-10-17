@@ -22,17 +22,6 @@ category varchar(15) not null,
 source varchar(4) not null,
 destination varchar(4) not null);
 
-create table fare_chart
-(train_no int(5) primary key,
-2S float(5,2),
-CC float(5,2),
-EC float(6,2),
-SL float(5,2),
-3A float(5,2),
-2A float(6,2),
-1A float(6,2),
-UR float(5,2));
-
 create table bookings
 (PNR bigint(10) primary key,
 train_no int(5) not null,
@@ -43,3 +32,4 @@ NOP int(1),
 booking_date date,
 journey_date date,
 fare float(7,2) not null);
+
