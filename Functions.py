@@ -178,7 +178,7 @@ def AddTrain():
     )
     cur = con.cursor()
     query = "INSERT INTO train_details (train_no, train_name, category, source, destination) VALUES (%s, %s, %s, %s, %s)"
-    row=(str(train_no),train_name,category,src,dstn)
+    row=(train_no,train_name,category,src,dstn)
     try:
         cur.execute(query,row)
         con.commit()
@@ -226,7 +226,7 @@ def DeleteTrain():
         cur.execute(query)
         con.close()
         print("Train deleted successfully")
-        
+
     elif flag==1:
         print("Train not found")
 
@@ -283,11 +283,32 @@ def CancelTicket():
 
 
 
-def PNRStatus():
-    pass
+def PNRStatus(pnr):
+    f_name='"'+str(pnr)+'.csv"'
+    f=open(f_name,"r",newline="")
+    robj=csv.reader(f)
+    print(pnr)
+    for row in robj:
+        print(row)
 
 
 
-
-def MyBookings():
-    pass
+def MyBookings(username):
+    con = mycon.connect(
+        host='localhost',
+        user='root',
+        password='password',
+        port=3306,
+        database='railway_system'
+    )
+    cur = con.cursor()
+    query = "select PNR from bookings where username='"+username+"'"
+    cur.execute()
+    result=cur.fetchall()
+    pnr=[]
+    for row in result:
+        pnr.append(row[0])
+    for i in pnr:
+        PNRStatus(i)
+        print()
+    

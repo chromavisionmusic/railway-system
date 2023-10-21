@@ -65,8 +65,10 @@ if sign_in==True:
         elif choice==2:
             F.CancelTicket()
         elif choice==3:
-            F.PNRStatus()
+            pnr=int(input("Enter PNR : "))
+            F.PNRStatus(pnr)
         elif choice==4:
-            F.MyBookings()
+            username=input("Enter username : ")
+            F.MyBookings(username)
         else:
             print("Invalid Choice! Try Again.")
