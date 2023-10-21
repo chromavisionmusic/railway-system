@@ -93,13 +93,39 @@ def AdminLogin():
 
 
 
+def CalculateFare(train_type,class_type):
+    train_fare={'Superfast':,'Duronto':,'Rajdhani':,'Shatabdi':,'Vande Bharat':,'Mail':}
+    class_fare={'1A':,'2A':,'3A':,'SL':,'EC':,'CC':,'2S':,'UR':}
+    reservation_charge={'1A':60,'2A':50,'3A':40,'SL':20,'EC':50,'CC':40,'2S':15,'UR':0}
+    fare=train_fare + class_fare + reservation_charge
+    if class_type not in ('SL','2S','UR'):
+        fare=fare*1.05      # 5% GST for AC Classes
+    return fare
+
+
+
 def AddStation():
     f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","ab+")
     f.close()
     f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","rb")
-    data=pickle.load(f)
+    data={}
+    flag=0
     station_code=input("Enter station code : ")
     station_name=input("Enter station name : ")
+    while True:
+        try:
+            data=pickle.load(f)
+            data[station_code]=station_name
+            flag=1
+        except:
+            f.close()
+            break
+    if flag==0:
+        print("Unable to add station")
+    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","wb")
+    pickle.dump(data,f)
+    f.close()
+
     data[station_code]=station_name
     f.close()
     f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","wb")
