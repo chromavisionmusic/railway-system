@@ -154,9 +154,7 @@ def DeleteStation():
 
 def AddTrain():
     # Adding data to csv file
-    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Trains.csv","a+")
-    f.close()
-    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Trains.csv","a")
+    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Trains.csv","a+",newline="")
     wobj=csv.writer(f)
     train_no=int(input("Enter train no : "))
     train_name=input("Enter train name : ")
@@ -169,8 +167,8 @@ def AddTrain():
         data.append(i)
     wobj.writerow(data)
     f.close()
+
     # Adding data to SQL
-    
     con = mycon.connect(
         host='localhost',
         user='root',
@@ -180,7 +178,7 @@ def AddTrain():
     )
     cur = con.cursor()
     query = "INSERT INTO train_details (train_no, train_name, category, source, destination) VALUES (%s, %s, %s, %s, %s)"
-    row=(train_no,train_name,category,src,dstn)
+    row=(str(train_no),train_name,category,src,dstn)
     try:
         cur.execute(query,row)
         con.commit()
@@ -197,8 +195,40 @@ def AddTrain():
 
 
 def DeleteTrain():
-    pass
+    # REMOVING FROM CSV FILE
+    f1=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Trains.csv","r")
+    f2=open("D:\\Projects\\Computer\\Class 12\\File Handling\\temp.csv","w",newline="")
+    robj=csv.reader(f1)
+    wobj=csv.writer(f2)
+    train_no=int(input("Enter train no : "))
+    flag=0
+    for i in robj:
+        if i[0]!=train_no:
+            wobj.writerow(i)
+        else:
+            flag=1
+    f1.close()
+    f2.close()
+    os.remove("D:\\Projects\\Computer\\Class 12\\File Handling\\Trains.csv")
+    os.rename("D:\\Projects\\Computer\\Class 12\\File Handling\\temp.csv","Trains.csv")
 
+    # REMOVING FROM DATABASE
+    if flag==0:
+        con = mycon.connect(
+            host='localhost',
+            user='root',
+            password='password',
+            port=3306,
+            database='railway_system_demo'
+        )
+        cur = con.cursor()
+        query = "delete from train_details where train_no="+str(train_no)
+        cur.execute(query)
+        con.close()
+        print("Train deleted successfully")
+        
+    elif flag==1:
+        print("Train not found")
 
 
 
