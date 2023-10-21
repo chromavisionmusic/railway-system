@@ -124,12 +124,6 @@ def AddStation():
         print("Unable to add station")
     f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","wb")
     pickle.dump(data,f)
-    f.close()
-
-    data[station_code]=station_name
-    f.close()
-    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","wb")
-    pickle.dump(data,f)
     print("Station added successfully")
     f.close()
 
@@ -137,8 +131,24 @@ def AddStation():
 
 
 def DeleteStation():
-    pass
-
+    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","rb")
+    data={}
+    flag=0
+    station_code=input("Enter station code : ")
+    while True:
+        try:
+            data=pickle.load(f)
+            del data[station_code]
+            flag=1
+        except:
+            f.close()
+            break
+    if flag==0:
+        print("Station not found")
+    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","wb")
+    pickle.dump(data,f)
+    print("Station deleted successfully")
+    f.close()
 
 
 
