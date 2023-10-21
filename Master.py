@@ -34,7 +34,7 @@ while choice!=0:
 if admin_login==True:
     choice=None
     while choice!=0:
-        choice=int(input("1. ADD STATION\n2. DELETE STATION\n3. ADD TRAIN\n4. MODIFY TRAIN\n5. DELETE TRAIN\n6. SHOW ALL ACTIVE BOOKINGS\n0. LOGOUT\n\nPlease enter your choice : "))
+        choice=int(input("1. ADD STATION\n2. DELETE STATION\n3. ADD TRAIN\n4. DELETE TRAIN\n5. SHOW ALL ACTIVE BOOKINGS\n0. LOGOUT\n\nPlease enter your choice : "))
         if choice==0:
             admin_login=False
             print("THANK YOU")
@@ -45,10 +45,8 @@ if admin_login==True:
         elif choice==3:
             F.AddTrain()
         elif choice==4:
-            F.ModifyTrain()
-        elif choice==5:
             F.DeleteTrain()
-        elif choice==6:
+        elif choice==5:
             F.BookingDetails()
         else:
             print("Invalid Choice! Try Again.")
