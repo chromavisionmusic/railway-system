@@ -69,13 +69,13 @@ def SignIn():
             if i[1]==password:      # CHECKS THE PASSWORD IN DATABASE
                 print ("Sign In Successful")
                 con.close()
-                return True
+                return True,username
             else:
                 print("PASSWORD DOESN'T MATCH")
-                return False
+                return False,""
     else:
         print("USER NOT FOUND.\nPLEASE CHECK YOUR USERNAME AS IT MAY BE WRONG\nELSE YOU NEED TO SIGN UP AS A NEW USER.")
-        return False
+        return False,""
     
 
 
@@ -278,7 +278,22 @@ def BookTicket():
 
 
 def CancelTicket():
-    pass
+    # Removing from SQL
+    con = mycon.connect(
+        host='localhost',
+        user='root',
+        password='password',
+        port=3306,
+        database='railway_system'
+    )
+    cur = con.cursor()
+    pnr = int(input("Enter the PNR of the ticket to be cancelled : "))
+    query = "DELETE FROM bookings WHERE PNR=%s;" % (pnr)
+    cur.execute(query)
+    con.commit()
+    f_name='"'+str(pnr)+'.csv"'
+    os.remove(f_name)
+    print("Ticket cancelled successfully.")
 
 
 
@@ -290,6 +305,7 @@ def PNRStatus(pnr):
     print(pnr)
     for row in robj:
         print(row)
+    f.close()
 
 
 
@@ -311,4 +327,5 @@ def MyBookings(username):
     for i in pnr:
         PNRStatus(i)
         print()
+    con.close()
     

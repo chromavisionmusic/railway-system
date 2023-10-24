@@ -6,6 +6,7 @@ import Functions as F
 # Variables
 sign_in=False
 admin_login=False
+username=""
 
 # Program
 print("Welcome to e-Train Reservation System")
@@ -20,7 +21,7 @@ while choice!=0:
     elif choice==1:     # Proceed to Sign Up page
         F.SignUp()
     elif choice==2:     # Proceed to Sign In page
-        sign_in=F.SignIn()
+        sign_in,username=F.SignIn()
         if sign_in==True:      # Main Menu after successful login
             break
     elif choice==3:
@@ -68,7 +69,6 @@ if sign_in==True:
             pnr=int(input("Enter PNR : "))
             F.PNRStatus(pnr)
         elif choice==4:
-            username=input("Enter username : ")
             F.MyBookings(username)
         else:
             print("Invalid Choice! Try Again.")
