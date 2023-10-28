@@ -1,7 +1,9 @@
 import mysql.connector as mycon
 import csv
+import random
 import pickle
 import os
+import datetime
 
 def SignUp():
     con = mycon.connect(
@@ -94,20 +96,20 @@ def AdminLogin():
 
 
 def CalculateFare(train_type,class_type):
-    train_fare={'Superfast':,'Duronto':,'Rajdhani':,'Shatabdi':,'Vande Bharat':,'Mail':}
-    class_fare={'1A':,'2A':,'3A':,'SL':,'EC':,'CC':,'2S':,'UR':}
-    reservation_charge={'1A':60,'2A':50,'3A':40,'SL':20,'EC':50,'CC':40,'2S':15,'UR':0}
+    train_fare={'Superfast':100,'Duronto':150,'Rajdhani':200,'Shatabdi':150,'Vande Bharat':200}
+    class_fare={'1A':2000,'2A':1200,'3A':700,'SL':300,'EC':1500,'CC':900,'2S':200}
+    reservation_charge={'1A':60,'2A':50,'3A':40,'SL':20,'EC':50,'CC':40,'2S':15}
     fare=train_fare + class_fare + reservation_charge
-    if class_type not in ('SL','2S','UR'):
+    if class_type not in ('SL','2S'):
         fare=fare*1.05      # 5% GST for AC Classes
     return fare
 
 
 
 def AddStation():
-    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","ab+")
+    f=open("Stations.dat","ab+")
     f.close()
-    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","rb")
+    f=open("Stations.dat","rb")
     data={}
     flag=0
     station_code=input("Enter station code : ")
@@ -122,7 +124,7 @@ def AddStation():
             break
     if flag==0:
         print("Unable to add station")
-    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","wb")
+    f=open("Stations.dat","wb")
     pickle.dump(data,f)
     print("Station added successfully")
     f.close()
@@ -131,7 +133,7 @@ def AddStation():
 
 
 def DeleteStation():
-    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","rb")
+    f=open("Stations.dat","rb")
     data={}
     flag=0
     station_code=input("Enter station code : ")
@@ -145,7 +147,7 @@ def DeleteStation():
             break
     if flag==0:
         print("Station not found")
-    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Stations.dat","wb")
+    f=open("Stations.dat","wb")
     pickle.dump(data,f)
     print("Station deleted successfully")
     f.close()
@@ -154,7 +156,7 @@ def DeleteStation():
 
 def AddTrain():
     # Adding data to csv file
-    f=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Trains.csv","a+",newline="")
+    f=open("Trains.csv","a+",newline="")
     wobj=csv.writer(f)
     train_no=int(input("Enter train no : "))
     train_name=input("Enter train name : ")
@@ -196,8 +198,8 @@ def AddTrain():
 
 def DeleteTrain():
     # REMOVING FROM CSV FILE
-    f1=open("D:\\Projects\\Computer\\Class 12\\File Handling\\Trains.csv","r")
-    f2=open("D:\\Projects\\Computer\\Class 12\\File Handling\\temp.csv","w",newline="")
+    f1=open("Trains.csv","r")
+    f2=open("temp.csv","w",newline="")
     robj=csv.reader(f1)
     wobj=csv.writer(f2)
     train_no=int(input("Enter train no : "))
@@ -209,8 +211,8 @@ def DeleteTrain():
             flag=1
     f1.close()
     f2.close()
-    os.remove("D:\\Projects\\Computer\\Class 12\\File Handling\\Trains.csv")
-    os.rename("D:\\Projects\\Computer\\Class 12\\File Handling\\temp.csv","Trains.csv")
+    os.remove("Trains.csv")
+    os.rename("temp.csv","Trains.csv")
 
     # REMOVING FROM DATABASE
     if flag==0:
@@ -239,7 +241,7 @@ def BookingDetails():
         user='root',
         password='password',
         port=3306,
-        database='railway_system'
+        database='railway_system_demo'
     )
     cur = con.cursor()
     cur.execute('select * from bookings')
@@ -271,10 +273,145 @@ def BookingDetails():
 
 
 
-def BookTicket():
-    pass
+def BookTicket(username):
+    # TRAIN SCHEDULE
+
+    # Board_at
+    f=open("Stations.dat","rb")
+    data={}
+    while True:
+        try:
+            data=pickle.load(f)
+        except:
+            f.close()
+            break
+    for i in data:
+        print(f"{i} - {data[i]}")
+    src=input("Enter Boarding Station Code : ")
+    src_name=data[src]
+    print()
+    # Destination
+    for i in data:
+        if i!=src:
+            print(f"{i} - {data[i]}")
+    dstn=input("Enter Destination Station Code : ")
+    dstn_name=data[dstn]
+    # Train
+    f=open("Trains.csv","r")
+    robj=csv.reader(f)
+    flag=0
+    for i in robj:
+        try:
+            s=i.index(src)
+        except:
+            continue
+        try:
+            d=i.index(dstn)
+        except:
+            continue
+        try:
+            if d>i:
+                print(i)
+                flag+=1
+        except:
+            continue
+        if flag==0:
+            print("NO TRAINS FOUND IN THE GIVEN ROUTE")
+
+    # Booking Train
+    train_no=int(input("Enter train no : "))
+    con = mycon.connect(
+        host='localhost',
+        user='root',
+        password='password',
+        port=3306,
+        database='railway_system_demo'
+    )
+    cur = con.cursor()
+    query="SELECT train_name,category FROM train_details"
+    cur.execute(query)
+    result=cur.fetchall()
+    con.close()
+    for row in result:
+        train_name,category=(row[0],row[1])
+    print(f"{train_no} - {train_name}")
+    if category=="Rajdhani":
+        print("3A\n2A\n1A\n")
+    elif category=="Vande Bharat" or category=="Shatabdi":
+        print("EC\nCC\n")
+    elif category=="Duronto":
+        print("3A\n2A\n1A\nSL\n2S\n")
+    else:
+        print("3A\n2A\n1A\nSL\n2S\n")
+    class_type=input("Enter your choice : ")
+    coach={'1A':'H','2A':'A','3A':'B','SL':'S','EC':'E','CC':'C','2S':'D'}
+    coach_no=coach[class_type]+str(random.randint(1,8))
+    doj=input("Enter date of journey (YYYY-MM-DD) : ")
+    seats={'1A':24,'2A':52,'3A':72,'SL':72,'EC':56,'CC':78,'2S':108}
+    seat_no=random.randint(1,seats[class_type]-4)
+    fare=CalculateFare(category,class_type)
+
+    # Passenger Details
+    nop=int(input("Enter total no. of passengers : "))
+    passenger_details=[]
+    for i in range(1,nop+1):
+        print("Enter details of passenger",i)
+        name=str(input("Name : "))
+        age=int(input("Age : "))
+        gender=str(input("Gender (M/F) : "))
+        data=[name,age,gender,seat_no]
+        passenger_details.append(data)
+        seat_no+=1
+    pnr=random.randint(1000000000,9999999999)
+    dob=datetime.date.today()
 
 
+    # Updating to database
+    con = mycon.connect(
+        host='localhost',
+        user='root',
+        password='password',
+        port=3306,
+        database='railway_system_demo'
+    )
+    cur = con.cursor()
+    query="INSERT INTO bookings(PNR, username, train_no, class, board_at, destination, NOP, booking_date, journey_date, fare) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    row=(pnr,username,train_no,class_type,src,dstn,nop,dob,doj,fare)
+    try:
+        cur.execute(query,row)
+        con.commit()
+        print("BOOKING SUCCESSFUL")
+    except Exception as e:
+        print("Error:", e)
+        con.rollback()
+    finally:
+        con.close()
+
+    # Printing Ticket
+    print("\nTicket\n")
+    print(f"PNR = {pnr}")
+    print(f"Train : {train_no}-{train_name}")
+    print(f"Class = {class_type}")
+    print(f"Board at : {src} - {src_name}")
+    print(f"Destination : {dstn} - {dstn_name}")
+    print(f"Date of Booking : {dob}")
+    print(f"Date of Booking : {doj}")
+    print("Passenger Details : ")
+    print("%30s"%"Name",
+          "%3s"%"Age",
+          "%6s"%"Gender"
+          "%5s"%"Coach",
+          "%4s"%"Seat",
+          "%6s"%"Status"
+          )
+    for data in passenger_details:
+        print("%30s"%data[0],
+              "%3s"%data[1],
+              "%6s"%data[2],
+              "%5s"%coach_no,
+              "%4s"%data[3],
+              "%6s"%"CNF"
+            )
 
 
 def CancelTicket():
@@ -284,7 +421,7 @@ def CancelTicket():
         user='root',
         password='password',
         port=3306,
-        database='railway_system'
+        database='railway_system_demo'
     )
     cur = con.cursor()
     pnr = int(input("Enter the PNR of the ticket to be cancelled : "))
@@ -315,7 +452,7 @@ def MyBookings(username):
         user='root',
         password='password',
         port=3306,
-        database='railway_system'
+        database='railway_system_demo'
     )
     cur = con.cursor()
     query = "select PNR from bookings where username='"+username+"'"
