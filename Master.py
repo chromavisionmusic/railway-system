@@ -1,5 +1,4 @@
 # Modules
-import mysql.connector as mycon
 import random
 import Functions as F
 
@@ -62,7 +61,7 @@ if sign_in==True:
             sign_in==False
             print("THANK YOU FOR USING e-Train Reservation System")
         elif choice==1:
-            F.BookTicket()
+            F.BookTicket(username)
         elif choice==2:
             F.CancelTicket()
         elif choice==3:
