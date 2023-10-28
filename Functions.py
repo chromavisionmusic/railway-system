@@ -378,7 +378,7 @@ def BookTicket(username):
     print(f"Board at : {src} - {src_name}")
     print(f"Destination : {dstn} - {dstn_name}")
     print(f"Date of Booking : {dob}")
-    print(f"Date of Booking : {doj}")
+    print(f"Date of Journey : {doj}")
     print("Passenger Details : ")
     print("%30s"%"Name",
           "%3s"%"Age",
@@ -503,7 +503,7 @@ def PNRStatus(pnr):
     print(f"Board at : {src} - {src_name}")
     print(f"Destination : {dstn} - {dstn_name}")
     print(f"Date of Booking : {dob}")
-    print(f"Date of Booking : {doj}")
+    print(f"Date of Journey : {doj}")
     print(f"Fare = ₹{fare}")
     print("Passenger Details : ")
     print("%30s"%"Name",
